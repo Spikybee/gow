@@ -1,0 +1,19 @@
+name: Xfce Gaming build
+
+on:
+  push:
+    paths:
+    - 'release-version/Heroic-latest.txt'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: xfce-gaming
+    steps:
+      - uses: actions/checkout@v7
+      
+      - name: Build and push image
+        run: |
+          docker login --username spikybee --password ${{ secrets.GH_CR }} ghcr.io
+          docker build apps/xfce-gaming/build --tag ghcr.io/spikybee/xfce-gaming:edge
+          docker push ghcr.io/spikybee/xfce-gaming:edge
